@@ -1,7 +1,10 @@
-public class quadrat{
+public class square{
    private double sidesize;
+    
+    public square(){
+    }
 
-    public quadrat(double a){
+    public void setSidesize(double a){
 	sidesize = a;
     }
 
@@ -14,7 +17,8 @@ public class quadrat{
     }
 
     public static void main(String[] args){
-	quadrat q = new quadrat(2.5);
+	square q = new square();
+	q.setSidesize(2.5);
         System.out.println("Seitenlängen: " + q.getSidesize());
 	System.out.println("Fläche: " + q.area());
     }
