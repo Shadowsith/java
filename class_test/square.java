@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import package.rectangle;
 
 public class square{
    private double sidelength;
@@ -28,7 +27,7 @@ public class square{
 	System.out.println("Fläche: " + q.area());
 	rectangle r = new rectangle();
 	r.setRectangle();
-	System.out.println("Länge: " + r.getLenght());
+	System.out.println("Länge: " + r.getLength());
 	System.out.println("Breite: " + r.getWidth());
 	System.out.println("Fläche: " + r.area());
 	

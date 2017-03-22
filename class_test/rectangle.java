@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class rectangle{
+ class rectangle{
 
     double length;
     double width;
