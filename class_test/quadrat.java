@@ -1,16 +1,21 @@
 public class quadrat{
-    double sidesize;
+   private double sidesize;
 
-    quadrat(double a){
+    public quadrat(double a){
 	sidesize = a;
     }
 
-    double area(){
+    public double getSidesize(){
+        return sidesize;
+    }
+
+    public double area(){
 	return sidesize*sidesize;
     }
 
-    public static void main(String args[]){
+    public static void main(String[] args){
 	quadrat q = new quadrat(2.5);
-	System.out.println("Size: " + q.area());
+        System.out.println("Seitenlängen: " + q.getSidesize());
+	System.out.println("Fläche: " + q.area());
     }
 }
