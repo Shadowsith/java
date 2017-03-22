@@ -1,25 +1,36 @@
+import java.util.Scanner;
+import package.rectangle;
+
 public class square{
-   private double sidesize;
+   private double sidelength;
     
     public square(){
     }
 
-    public void setSidesize(double a){
-	sidesize = a;
+    public void setSidelength(){
+	Scanner scan = new Scanner(System.in);	    //Eingabestream
+	System.out.print("Gebe eine Zahl ein: ");
+	sidelength = scan.nextDouble();
     }
 
-    public double getSidesize(){
-        return sidesize;
+    public double getSidelength(){
+        return sidelength;
     }
 
     public double area(){
-	return sidesize*sidesize;
+	return sidelength*sidelength;
     }
 
     public static void main(String[] args){
 	square q = new square();
-	q.setSidesize(2.5);
-        System.out.println("Seitenlängen: " + q.getSidesize());
+	q.setSidelength();
+        System.out.println("Seitenlängen: " + q.getSidelength());
 	System.out.println("Fläche: " + q.area());
+	rectangle r = new rectangle();
+	r.setRectangle();
+	System.out.println("Länge: " + r.getLenght());
+	System.out.println("Breite: " + r.getWidth());
+	System.out.println("Fläche: " + r.area());
+	
     }
 }
