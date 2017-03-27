@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
- class rectangle{
+ public class Rectangle{
 
     double length;
     double width;
@@ -8,7 +8,7 @@ import java.util.Scanner;
     public rectangle(){
     }
 
-    public void setRectangle(){
+    public void setSize(){
 
 	Scanner scan = new Scanner(System.in);	    //Eingabestream
 	System.out.print("Gebe die Länge ein: ");
