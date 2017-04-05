@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-
 public class Weapons {
 
   private double w_length;
