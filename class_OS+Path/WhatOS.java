@@ -8,7 +8,7 @@ public class WhatOS{
 
     public static void main(String[] args){
 	
-	String s = "Hallo.txt";
+	String s = "file.mp3";
 	System.out.println(new File(s).getAbsolutePath());
 	System.out.println(operatingSystem);
 	System.out.println(java.io.File.separatorChar);
