@@ -31,7 +31,11 @@ public class WhatOS{
 	    }
 	}
 	System.out.println(g.length() - counter);
-
+        
+        if(g.length() == counter){
+            System.out.println("Besteht nur aus Leerzeichen");
+        
+        }
 
 	if(f.substring(f.length() - 1).equals("\\")){
 	    System.out.println("Es funktioniert :D");
