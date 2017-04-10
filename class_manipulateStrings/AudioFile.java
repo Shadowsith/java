@@ -19,18 +19,14 @@ public class AudioFile{
 
 	return s.substring(0, pos) + c + s.substring(pos + 1); 
     }    
-
     //Set all to ""-String if origin path is ""
     public void setVoidString(String path){
 
         if(path.equals("")){
             setPathname("");
             setFilename("");
-
         }
-       
     }
-
     //Set all to origin path, if it contains only space or/and tab
     public void tabOrSpace(String path){
 
@@ -64,7 +60,6 @@ public class AudioFile{
 	    System.out.println("The OS is not supported!");
 	    return path;
 	}
-
     }
 
     //Delete not needed / or \ (e.g. //,\\)
@@ -89,15 +84,11 @@ public class AudioFile{
                 }   
             }   
             return path;
-
         }   
         else{
             System.out.println("The OS is not supported!");
             return path;
         }   
-
- 
-
     }
     
     //Methode ask if second char is ':' than it is a windows path
@@ -115,8 +106,6 @@ public class AudioFile{
 
             }
             else System.out.println("This OS is not supported");
-        
-        
         }
         return path;
     } 
@@ -129,13 +118,11 @@ public class AudioFile{
 	    if(path.charAt(i) == '/' || path.charAt(i) == '\\'){
 		counter++;
 	    }
-
 	}
 	if(counter == 0){
 	    setFilename(path);
 	    return path;
 	}
-        
         counter = 0;
 	//ArrayList saves the position of the 
         List<Integer> arr = new ArrayList<Integer>();
@@ -163,7 +150,6 @@ public class AudioFile{
 	}
         //Replace not wanted space signs
         if (arr.get(counter) == path.length() - 1 && arr.get(counter) >= 0){
-
             for(int i = 0; i < arr.get(counter-1); i++){
                 if (path.charAt(i) == ' '){
                     path = replaceCharAt(path, i, '\0');
@@ -174,7 +160,6 @@ public class AudioFile{
             setFilename(filename);
         }
         else if (arr.get(counter) < path.length() -1 && arr.get(counter) >= 0) {
-            
             for(int i = 0; i < arr.get(counter); i++){
                 if (path.charAt(i) == ' '){
                     path = replaceCharAt(path, i, '\0');
@@ -183,13 +168,9 @@ public class AudioFile{
 	    //Save filename
             filename = path.substring(arr.get(counter)+1);
             setFilename(filename);
-
         }
-  
         return path;
-
     }
-
 
     public void parsePathname(String path){
 	int counter = 0;
@@ -198,8 +179,6 @@ public class AudioFile{
                 counter++;
             }   
         }   
-
-	    
 	if(path.isEmpty()){
 	    setVoidString(path);
 	}
@@ -207,14 +186,35 @@ public class AudioFile{
 	    tabOrSpace(path);
 	}
 	else{
-
 	    path = replaceSlashOrBackslash(path);
 	    path = normWindowsPath(path);
 	    path = normaliseSlashes(path);
 	    path = deleteUnusedSpace(path);
-	    path = deleteUnusedSpace(path);
 	    setPathname(path);
 	}
+    }
+
+    public void parseFilename(String file){
+        file = getFilename();
+        int counter = 0;
+        int counter1 = 0;
+        for(int i = 0; i < file.length(); i++){
+            if(file.charAt(i) == ' '){
+                counter++;
+            }
+            if(file.charAt(i) == ' ' || file.charAt(i) == '-'){
+                counter1++;
+            }
+        }
+        if(file.indexOf(".") == 0){
+            setAuthor("");
+            setTitle("");
+        }
+        else if(file.length() == counter){
+            setAuthor("");
+            setTitle(file.substring(0,file.indexOf(".")));
+        }
+
 
     }
 
@@ -254,59 +254,23 @@ public class AudioFile{
 
     //Main----------------------------------
     public static void main(String[] args){
-    
-    AudioFile aa = new AudioFile();
-    String a = "";
-    System.out.println("Input Path: <" + a + ">");
-    aa.parsePathname(a);
-    System.out.println("getPathname: <" + aa.getPathname() + ">");
-    System.out.println("getFilename: <" + aa.getFilename() + ">");
 
-    System.out.println();
+        List<String> ss = new ArrayList<String>();
+        ss.add("");             //0
+        ss.add("   \t   \t");
+        ss.add("file.mp3");
+        ss.add("/my-tmp/file.mp3");
+        ss.add("//my-tmp////part1//file.mp3///");
+        ss.add("d:\\\\\\\\part1///file.mp3"); //5
 
-    AudioFile ab = new AudioFile();
-    String b = "   \t   \t";
-    System.out.println("Input Path : <" + b + ">");
-    ab.parsePathname(b);
-    System.out.println("getPathname: <" + ab.getPathname() + ">");
-    System.out.println("getFilename: <" + ab.getFilename() + ">");
-
-    System.out.println();
-
-    AudioFile ac = new AudioFile();
-    String c = "file.mp3";
-    System.out.println("Input Path: <" + c + ">");
-    ac.parsePathname(c);
-    System.out.println("getPathname: <" + ac.getPathname() + ">");
-    System.out.println("getFilename: <" + ac.getFilename() + ">");
-
-    System.out.println();
-
-    AudioFile ad = new AudioFile();
-    String d = "/my-tmp/file.mp3";
-    System.out.println("Input Path: <" + d + ">");
-    ad.parsePathname(d);
-    System.out.println("getPathname: <" + ad.getPathname() + ">");
-    System.out.println("getFilename: <" + ad.getFilename() + ">");
-
-    System.out.println();
-
-    AudioFile af = new AudioFile();
-    String f = "//my-tmp////part1//file.mp3///";
-    System.out.println("Input Path: <" + f + ">");
-    af.parsePathname(f);
-    System.out.println("getPathname: <" + af.getPathname() + ">");
-    System.out.println("getFilename: <" + af.getFilename() + ">");
-
-    System.out.println();
-
-    AudioFile ag = new AudioFile();
-    String g = "/:\\\\\\\\part1///file.mp3";
-    ag.parsePathname(g);
-    System.out.println("Input Path: <" + g + ">");
-    System.out.println("getPathname: <" + ag.getPathname() + ">");
-    System.out.println("getFilename: <" + ag.getFilename() + ">");
-    
+        AudioFile af = new AudioFile();
+        for(int i = 0; i < ss.size(); i++){
+            System.out.println("Input File:  <" + ss.get(i) + ">");
+            af.parsePathname(ss.get(i));
+            System.out.println("getPathname: <" + af.getPathname() + ">");
+            System.out.println("getFilename: <" + af.getFilename() + ">");
+            System.out.println();
+        }
     }
     
 
