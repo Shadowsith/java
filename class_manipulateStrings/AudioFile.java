@@ -199,20 +199,28 @@ public class AudioFile{
         int counter = 0;
         int counter1 = 0;
         for(int i = 0; i < file.length(); i++){
-            if(file.charAt(i) == ' '){
+            if(file.charAt(i) != ' '){
                 counter++;
             }
             if(file.charAt(i) == ' ' || file.charAt(i) == '-'){
                 counter1++;
             }
         }
-        if(file.indexOf(".") == 0){
+	System.out.println("Filelength: " + file.length());
+	System.out.println("Counterlength: " + counter);
+	if(file.length() == 0){
+	    setAuthor("");
+	    setTitle("");
+	}
+        else if(file.indexOf(".") == 0){
             setAuthor("");
             setTitle("");
         }
         else if(file.length() == counter){
             setAuthor("");
             setTitle(file.substring(0,file.indexOf(".")));
+	    System.out.println("File: <" + file + ">");
+	    System.out.println("Substring <" + file.substring(0,file.indexOf(".")) + ">");
         }
 
 
@@ -267,9 +275,12 @@ public class AudioFile{
         for(int i = 0; i < ss.size(); i++){
             System.out.println("Input File:  <" + ss.get(i) + ">");
             af.parsePathname(ss.get(i));
+	    af.parseFilename(ss.get(i));
             System.out.println("getPathname: <" + af.getPathname() + ">");
             System.out.println("getFilename: <" + af.getFilename() + ">");
-            System.out.println();
+	    System.out.println("getAuthor:   <" + af.getAuthor() + ">"); 
+            System.out.println("getTitle:    <" + af.getTitle() + ">");
+	    System.out.println();
         }
     }
     
