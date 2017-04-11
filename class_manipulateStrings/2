@@ -37,6 +37,6 @@ public class Substring{
             System.out.println("File: <" + file + ">");
             System.out.println("Substring <" + file.substring(0,file.indexOf(".")) + ">");
 
-	}
+    }
 
 }

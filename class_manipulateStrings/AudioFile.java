@@ -202,10 +202,11 @@ public class AudioFile{
             if(file.charAt(i) != ' '){
                 counter++;
             }
-            if(file.charAt(i) == ' ' || file.charAt(i) == '-'){
+            if(file.charAt(0) != '-' && (file.charAt(i) == ' ' || file.charAt(i) == '-')){
                 counter1++;
             }
         }
+	//System.out.println("File: " + file);
 	System.out.println("Filelength: " + file.length());
 	System.out.println("Counterlength: " + counter);
 	if(file.length() == 0){
@@ -216,12 +217,28 @@ public class AudioFile{
             setAuthor("");
             setTitle("");
         }
-        else if(file.length() == counter){
+        else if(file.length() == counter && file.length() > 1){
             setAuthor("");
             setTitle(file.substring(0,file.indexOf(".")));
-	    System.out.println("File: <" + file + ">");
-	    System.out.println("Substring <" + file.substring(0,file.indexOf(".")) + ">");
+	    //System.out.println("File: <" + file + ">");
+	    //System.out.println("Substring <" + file.substring(0,file.indexOf(".")) + ">");
         }
+	else if(file.length() == counter1){
+	    setAuthor("");
+	    setTitle("");
+	}
+	else if(file.charAt(0) == '-'){
+	    setAuthor("");
+	    setTitle(file);
+	}
+	else if(file.indexOf("-") > 0){
+	    
+	    if(file.indexOf(" ") > 0){
+
+	    }
+	}
+	
+	
 
 
     }
@@ -262,7 +279,7 @@ public class AudioFile{
 
     //Main----------------------------------
     public static void main(String[] args){
-
+    /*
         List<String> ss = new ArrayList<String>();
         ss.add("");             //0
         ss.add("   \t   \t");
@@ -282,6 +299,24 @@ public class AudioFile{
             System.out.println("getTitle:    <" + af.getTitle() + ">");
 	    System.out.println();
         }
+	*/
+
+	AudioFile af = new AudioFile();
+	
+	List<String> fl = new ArrayList<String>();
+	fl.add("file.mp3");
+	fl.add("-");
+	fl.add(" - ");
+	fl.add(".mp3");
+	
+	for(int i = 0; i < fl.size(); i++){
+	    af.setFilename(fl.get(i));	
+	    af.parseFilename(af.getFilename());
+	    System.out.println("Input Filename: <" + fl.get(i) + ">");
+	    System.out.println("getAuthor:   <" + af.getAuthor() + ">");
+	    System.out.println("getTitle:    <" + af.getTitle() + ">");
+	    System.out.println();
+	}
     }
     
 
