@@ -54,7 +54,6 @@ public class AudioFile{
                 }   
             }   
 	    return path;
-
 	}
 	else{
 	    System.out.println("The OS is not supported!");
@@ -198,7 +197,21 @@ public class AudioFile{
         file = getFilename();
         int counter = 0;
         int counter1 = 0;
-        for(int i = 0; i < file.length(); i++){
+        
+
+	for (int i = 0; i < file.length() - 1; i++){
+	    if (file.charAt(i) == ' ' && file.charAt(i+1) == ' '){
+                    file = replaceCharAt(file, i, '\0');
+            }   
+	}
+	if (file.indexOf(" ") == 0){
+                file = replaceCharAt(file, 0, '\0');
+                if ( (file.lastIndexOf(" ")+1) == file.length()){
+                    file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
+                }
+        }
+   
+	for(int i = 0; i < file.length(); i++){
             if(file.charAt(i) != ' '){
                 counter++;
             }
@@ -233,16 +246,46 @@ public class AudioFile{
 	}
 	else if(file.indexOf("-") > 0){
 	    
-	    if(file.indexOf(" ") > 0){
+	    for (int i = 0; i < file.length() - 1; i++){
+		if (file.charAt(i) == ' ' && file.charAt(i+1) == ' '){
+		    file = replaceCharAt(file, i, '\0');
+		}
+	    }
+	    if (file.indexOf(" ") == 0){
+		file = replaceCharAt(file, 0, '\0');
+		if ( (file.lastIndexOf(" ")+1) == file.length()){
+		    file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
+		}
+	    }
+	    if (file.lastIndexOf(".") > 0){
+		file = file.substring(0,file.lastIndexOf("."));
 
 	    }
+	    if (file.lastIndexOf(" ") == file.length()-1){
+		file = file.substring(0,file.lastIndexOf(" "));
+	    }
+	    if (file.indexOf(" ") != 0 && (file.indexOf("-") == file.indexOf(" ")+1 ||
+	    file.indexOf("-") ==  file.indexOf(" ")-1)){
+
+
+	    setAuthor(file.substring(0,file.indexOf(" ")));
+	    setTitle(file.substring(file.indexOf("-")+2,file.length()));
+	    }
+
+	    //setAuthor(file);
+	    //setTitle(file);
 	}
-	
-	
+	else if(0){
+	    setAuthor(file);
+	    setTitle(file);if (file.indexOf(" ") == 0){
+                file = replaceCharAt(file, 0, '\0');
+                if ( (file.lastIndexOf(" ")+1) == file.length()){
+                    file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
+                }
+            }
 
-
+	}
     }
-
     //Setter---------------------------------
     public void setFilename(String filename){
 	parsedFilename = filename;
@@ -304,10 +347,14 @@ public class AudioFile{
 	AudioFile af = new AudioFile();
 	
 	List<String> fl = new ArrayList<String>();
-	fl.add("file.mp3");
-	fl.add("-");
-	fl.add(" - ");
-	fl.add(".mp3");
+	//fl.add("file.mp3");
+	//fl.add("-");
+	//fl.add(" - ");
+	//fl.add(".mp3");
+	//fl.add(" Falco - Rock me Amadeus .mp3 ");
+	fl.add("Falco - Rock me Amadeus.");
+	fl.add("   A.U.T.O.R.  -  T.I.T.E.L.EXTENSION");
+	fl.add("Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
 	
 	for(int i = 0; i < fl.size(); i++){
 	    af.setFilename(fl.get(i));	
