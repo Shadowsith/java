@@ -17,8 +17,26 @@ public class AudioFile{
     //Own methodes for parsePathname--------------------------
     public String replaceCharAt(String s, int pos, char c) {
 
-	return s.substring(0, pos) + c + s.substring(pos + 1); 
-    }    
+	return s.substring(0, pos) + c + s.substring(pos + 1);
+    }
+
+    //I only replaces the most symbols with "", but do not shorten the String
+    //This method shorten the String and frees them from ""
+    public String removeAllEmptyChar(String s){
+	StringBuilder sb = new StringBuilder(s);
+	int j = 0;
+
+	for(int i = 0; i < sb.length(); i++){
+	    if(sb.charAt(i) != '\0'){
+		sb.setCharAt(j++, sb.charAt(i));
+	    }
+	}
+	sb.delete(j, sb.length());
+	return sb.toString();
+
+    }
+    
+    
     //Set all to ""-String if origin path is ""
     public void setVoidString(String path){
 
@@ -33,7 +51,6 @@ public class AudioFile{
         setPathname(path);
         setFilename(path);
     }
-
     //Replace slashes or backslashes OS specificly
     public String replaceSlashOrBackslash(String path){
 
@@ -198,19 +215,6 @@ public class AudioFile{
         int counter = 0;
         int counter1 = 0;
         
-
-	for (int i = 0; i < file.length() - 1; i++){
-	    if (file.charAt(i) == ' ' && file.charAt(i+1) == ' '){
-                    file = replaceCharAt(file, i, '\0');
-            }   
-	}
-	if (file.indexOf(" ") == 0){
-                file = replaceCharAt(file, 0, '\0');
-                if ( (file.lastIndexOf(" ")+1) == file.length()){
-                    file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
-                }
-        }
-   
 	for(int i = 0; i < file.length(); i++){
             if(file.charAt(i) != ' '){
                 counter++;
@@ -222,76 +226,110 @@ public class AudioFile{
 	//System.out.println("File: " + file);
 	System.out.println("Filelength: " + file.length());
 	System.out.println("Counterlength: " + counter);
+	//Empty String -> setAllEmpty
 	if(file.length() == 0){
 	    setAuthor("");
 	    setTitle("");
 	}
+	//Begining of file is the file extension, setAllEmpty
         else if(file.indexOf(".") == 0){
             setAuthor("");
             setTitle("");
         }
+	//For all filenames with no space and '.' for file extension
+	//set Author emptyString and Title is the substring without .fileextension
         else if(file.length() == counter && file.length() > 1){
             setAuthor("");
             setTitle(file.substring(0,file.indexOf(".")));
 	    //System.out.println("File: <" + file + ">");
 	    //System.out.println("Substring <" + file.substring(0,file.indexOf(".")) + ">");
         }
+	//Exist only " " and "-" in filename, setAllEmpty
 	else if(file.length() == counter1){
 	    setAuthor("");
 	    setTitle("");
 	}
+	//Is the first Character '-', setAuthorEmpty and Title is '-'+'so on'
 	else if(file.charAt(0) == '-'){
 	    setAuthor("");
 	    setTitle(file);
 	}
-	else if(file.indexOf("-") > 0){
-	    
+	else{
+	   
+	    //Replace not needed " "
 	    for (int i = 0; i < file.length() - 1; i++){
 		if (file.charAt(i) == ' ' && file.charAt(i+1) == ' '){
 		    file = replaceCharAt(file, i, '\0');
 		}
 	    }
+	    //Replace the first Character if it is " "
+	    if (file.indexOf(" ") == 0){
+		file = file.substring(1,file.length());
+	    }
 	    if (file.indexOf(" ") == 0){
 		file = replaceCharAt(file, 0, '\0');
-		if ( (file.lastIndexOf(" ")+1) == file.length()){
-		    file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
-		}
 	    }
+	    //Cut of the .extension
 	    if (file.lastIndexOf(".") > 0){
 		file = file.substring(0,file.lastIndexOf("."));
 
 	    }
+	    //Replace the last used! Character if it is " "
 	    if (file.lastIndexOf(" ") == file.length()-1){
-		file = file.substring(0,file.lastIndexOf(" "));
+		file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
 	    }
-	    if (file.indexOf(" ") != 0 && (file.indexOf("-") == file.indexOf(" ")+1 ||
-	    file.indexOf("-") ==  file.indexOf(" ")-1)){
-
-
-	    setAuthor(file.substring(0,file.indexOf(" ")));
-	    setTitle(file.substring(file.indexOf("-")+2,file.length()));
+	    if (file.indexOf("-") == file.indexOf(" ")+1 ||
+	    file.indexOf("-") ==  file.indexOf(" ")-1){
+		setAuthor(file.substring(0,file.indexOf(" ")));
+		setTitle(file.substring(file.indexOf("-")+2,file.length()));
 	    }
+	    if (file.indexOf("-") != file.indexOf(" ")+1 ||
+		file.indexOf("-") !=  file.indexOf(" ")-1){
 
-	    //setAuthor(file);
-	    //setTitle(file);
-	}
-	else if(0){
-	    setAuthor(file);
-	    setTitle(file);if (file.indexOf(" ") == 0){
-                file = replaceCharAt(file, 0, '\0');
-                if ( (file.lastIndexOf(" ")+1) == file.length()){
-                    file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
-                }
-            }
+	
+	/*	if (file.indexOf(" ") == 0 || file.charAt(0) == ' '){
+		file = file.substring(1,file.length());
+		}*/
 
+		System.out.println("<" + file.charAt(0) + ">");
+		System.out.println("<" + file.charAt(1) + ">");
+		//file = file.substring(1,file.length());
+		int dashcounter = 0;
+		int spacecounter = 0;
+		List<Integer> dashpos  = new ArrayList<Integer>();
+		//List<String> spacepos  = new ArrayList<String>();
+		dashpos.add(dashcounter);
+		//spacepos.add(spacecounter);
+
+		for (int i = 0; i < file.length(); i++){
+
+		    if (file.charAt(i) == '-' && file.charAt(i-1) == ' ' || file.charAt(i) == '-' &&
+		    file.charAt(i+1) == ' '){
+			dashpos.add(i);
+			dashcounter++;
+		    }
+		}
+		//for (int i = 0; i < dashpos.size(); i++){
+		
+		//    if (
+
+		//}
+		setAuthor(file);
+            }   
 	}
     }
     //Setter---------------------------------
     public void setFilename(String filename){
+	if (!filename.equals("")){
+	    filename = removeAllEmptyChar(filename);
+	}
 	parsedFilename = filename;
 
     }
     public void setPathname(String pathname){
+	if (!pathname.equals("")){
+	    pathname = removeAllEmptyChar(pathname);
+	}
 	parsedPathname = pathname;
     } 
 
@@ -322,7 +360,7 @@ public class AudioFile{
 
     //Main----------------------------------
     public static void main(String[] args){
-    /*
+    ///*
         List<String> ss = new ArrayList<String>();
         ss.add("");             //0
         ss.add("   \t   \t");
@@ -333,17 +371,18 @@ public class AudioFile{
 
         AudioFile af = new AudioFile();
         for(int i = 0; i < ss.size(); i++){
-            System.out.println("Input File:  <" + ss.get(i) + ">");
+            System.out.println("Input File:  <" + ss.get(i) + ">" + " Length " + ss.get(i).length());
             af.parsePathname(ss.get(i));
 	    af.parseFilename(ss.get(i));
-            System.out.println("getPathname: <" + af.getPathname() + ">");
-            System.out.println("getFilename: <" + af.getFilename() + ">");
+            System.out.println("getPathname: <" + af.getPathname() + ">" + " Length " +
+	    af.getPathname().length());
+            System.out.println("getFilename: <" + af.getFilename() + ">" + " Length ");
 	    System.out.println("getAuthor:   <" + af.getAuthor() + ">"); 
             System.out.println("getTitle:    <" + af.getTitle() + ">");
 	    System.out.println();
         }
-	*/
-
+	//*/
+	/*
 	AudioFile af = new AudioFile();
 	
 	List<String> fl = new ArrayList<String>();
@@ -353,8 +392,8 @@ public class AudioFile{
 	//fl.add(".mp3");
 	//fl.add(" Falco - Rock me Amadeus .mp3 ");
 	fl.add("Falco - Rock me Amadeus.");
-	fl.add("   A.U.T.O.R.  -  T.I.T.E.L.EXTENSION");
-	fl.add("Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
+	fl.add("          A.U.T.O.R.  -  T.I.T.E.L.EXTENSION");
+	fl.add(" Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
 	
 	for(int i = 0; i < fl.size(); i++){
 	    af.setFilename(fl.get(i));	
@@ -362,8 +401,11 @@ public class AudioFile{
 	    System.out.println("Input Filename: <" + fl.get(i) + ">");
 	    System.out.println("getAuthor:   <" + af.getAuthor() + ">");
 	    System.out.println("getTitle:    <" + af.getTitle() + ">");
+	    af.setAuthor("");
+	    af.setTitle("");
 	    System.out.println();
 	}
+	*/
     }
     
 
