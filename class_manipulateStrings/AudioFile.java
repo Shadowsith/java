@@ -262,21 +262,20 @@ public class AudioFile{
 		    file = replaceCharAt(file, i, '\0');
 		}
 	    }
+	    file = removeAllEmptyChar(file);
 	    //Replace the first Character if it is " "
 	    if (file.indexOf(" ") == 0){
 		file = file.substring(1,file.length());
-	    }
-	    if (file.indexOf(" ") == 0){
-		file = replaceCharAt(file, 0, '\0');
+		file = removeAllEmptyChar(file);
 	    }
 	    //Cut of the .extension
 	    if (file.lastIndexOf(".") > 0){
 		file = file.substring(0,file.lastIndexOf("."));
-
 	    }
 	    //Replace the last used! Character if it is " "
 	    if (file.lastIndexOf(" ") == file.length()-1){
 		file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
+		file = removeAllEmptyChar(file);
 	    }
 	    if (file.indexOf("-") == file.indexOf(" ")+1 ||
 	    file.indexOf("-") ==  file.indexOf(" ")-1){
@@ -286,14 +285,6 @@ public class AudioFile{
 	    if (file.indexOf("-") != file.indexOf(" ")+1 ||
 		file.indexOf("-") !=  file.indexOf(" ")-1){
 
-	
-	/*	if (file.indexOf(" ") == 0 || file.charAt(0) == ' '){
-		file = file.substring(1,file.length());
-		}*/
-
-		System.out.println("<" + file.charAt(0) + ">");
-		System.out.println("<" + file.charAt(1) + ">");
-		//file = file.substring(1,file.length());
 		int dashcounter = 0;
 		int spacecounter = 0;
 		List<Integer> dashpos  = new ArrayList<Integer>();
@@ -309,13 +300,16 @@ public class AudioFile{
 			dashcounter++;
 		    }
 		}
+
+		setAuthor(file.substring(0,dashpos.get(dashcounter)-1));
+		setTitle(file.substring(dashpos.get(dashcounter)+2,file.length()));
 		//for (int i = 0; i < dashpos.size(); i++){
 		
 		//    if (
 
 		//}
-		setAuthor(file);
-            }   
+		//setAuthor(file);
+            }
 	}
     }
     //Setter---------------------------------
@@ -360,14 +354,15 @@ public class AudioFile{
 
     //Main----------------------------------
     public static void main(String[] args){
-    ///*
+    
         List<String> ss = new ArrayList<String>();
         ss.add("");             //0
-        ss.add("   \t   \t");
-        ss.add("file.mp3");
-        ss.add("/my-tmp/file.mp3");
-        ss.add("//my-tmp////part1//file.mp3///");
-        ss.add("d:\\\\\\\\part1///file.mp3"); //5
+        //ss.add("   \t   \t");
+        //ss.add("  file.mp3");
+        ss.add("/my-tmp/  Falco - Rock me Amadeus.mp3");
+        ss.add("//my-tmp////part1//   Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
+        ss.add("d:\\\\\\\\part1///	A.U.T.O.R.  -  T.I.T.E.L.EXTENSION"); //5
+
 
         AudioFile af = new AudioFile();
         for(int i = 0; i < ss.size(); i++){
@@ -381,7 +376,7 @@ public class AudioFile{
             System.out.println("getTitle:    <" + af.getTitle() + ">");
 	    System.out.println();
         }
-	//*/
+	
 	/*
 	AudioFile af = new AudioFile();
 	
