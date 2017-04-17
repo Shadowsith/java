@@ -7,12 +7,10 @@ public class AudioFile{
     //Variables------------------------------------------------
     private static String operatingSystem = System.getProperty("os.name").toLowerCase();
     public String path = new String();
-    private String normedPath = new String();
     private String parsedFilename = new String();
     private String parsedPathname = new String();
     private String author = new String();
     private String title = new String();
-    private int counter = 0;
     
     //Own methodes for parsePathname--------------------------
     public String replaceCharAt(String s, int pos, char c) {
@@ -383,7 +381,7 @@ public class AudioFile{
         //ss.add("  file.mp3");
         ss.add("/my-tmp/\\       Falco - Rock me Amadeus.mp3");
         ss.add("//my-tmp////\\\\\\part1//\\     Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
-        ss.add("d:\\\\part1///     A.U.T.O.R. - T.I.T.E.L.EXTENSION"); //5
+        ss.add("d:\\\\part1///     A.U.T.O.R. - T.I.T.E.L   .EXTENSION"); //5
 
 
         AudioFile af = new AudioFile();
