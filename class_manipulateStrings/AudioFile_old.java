@@ -196,25 +196,17 @@ public class AudioFile{
     }
 
     public void parsePathname(String path){
-	int spacetabcounter = 0;
-	int isfileonlycounter = 0;
+	int counter = 0;
         for( int i = 0; i < path.length(); i++){
-            if(path.charAt(i) == ' ' || path.charAt(i) == '\t'){
-                spacetabcounter++;
-            }
-	    if(path.charAt(i) != '/' || path.charAt(i) != '\\'){
-		isfileonlycounter++;
-	    }
+            if( path.charAt(i) == ' ' || path.charAt(i) == '\t'){
+                counter++;
+            }   
         }   
 	if(path.isEmpty()){
 	    setVoidString(path);
 	}
-	else if(path.length() == spacetabcounter){
+	else if(path.length() == counter){
 	    tabOrSpace(path);
-	}
-	else if(path.length() == isfileonlycounter){
-	    setPathname("");
-	    setFilename(path);
 	}
 	else{
 	    path = replaceSlashOrBackslash(path);
@@ -222,7 +214,6 @@ public class AudioFile{
 	    path = normaliseSlashes(path);
 	    path = deleteUnusedSpace(path);
 	    setPathname(path);
-	    parseFilename(path);
 	}
     }
 
@@ -231,7 +222,6 @@ public class AudioFile{
         int counter = 0;
         int counter1 = 0;
 	int spacetabcounter = 0;
-	int namecounter = 0;
         
 	for(int i = 0; i < file.length(); i++){
             if(file.charAt(i) != ' '){
@@ -242,9 +232,6 @@ public class AudioFile{
             }
 	    if(file.charAt(i) == ' ' || file.charAt(i) == '\t'){
 		spacetabcounter++;
-	    }
-	    if(file.charAt(i) != ' ' || file.charAt(i) != '.'){
-		namecounter++;
 	    }
         }
 	//System.out.println("File: " + file);
@@ -275,10 +262,6 @@ public class AudioFile{
 	}
 	//Is the first Character '-', setAuthorEmpty and Title is '-'+'so on'
 	else if(file.charAt(0) == '-'){
-	    setAuthor("");
-	    setTitle(file);
-	}
-	else if(file.length() == namecounter){
 	    setAuthor("");
 	    setTitle(file);
 	}
@@ -401,12 +384,10 @@ public class AudioFile{
 	return title;
     }
 
-    //Main----------------------------------
-    public static void main(String[] args){
      
-    
+    public static void main(String[] args){
+
+
     }
-
-
 
 }

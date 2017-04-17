@@ -404,8 +404,68 @@ public class AudioFile{
     //Main----------------------------------
     public static void main(String[] args){
      
-    
-    }
+        List<String> ss = new ArrayList<String>();
+        ss.add("");             //0
+	String str = "/my-tmp/\\       Falco - Rock me Amadeus.mp3";
+        ss.add("   \t   \t");
+        //ss.add("  file.mp3");
+        ss.add("/my-tmp/\\       Falco - Rock me Amadeus.mp3");
+        ss.add("//my-tmp////\\\\\\part1//\\     Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
+        ss.add("d:\\\\part1///     A.U.T.O.R. - T.I.T.E.L   .EXTENSION"); //5
+
+
+        //AudioFile af = new AudioFile();
+
+	    AudioFile af = new AudioFile("p");
+            System.out.println("Input File:  <" + "p" /*ss.get(4)*/ + ">" + " Length " + ss.get(2).length());
+            System.out.println("getPathname: <" + af.getPathname() + ">" + " Length ");
+            System.out.println("getFilename: <" + af.getFilename() + ">" + " Length ");
+            System.out.println("getAuthor:   <" + af.getAuthor() + ">"); 
+            System.out.println("getTitle:    <" + af.getTitle() + ">");
+            System.out.println("<" + af.toString() + ">");
+            System.out.println();
+
+        /*for(int i = 0; i < ss.size(); i++){
+            System.out.println("Input File:  <" + ss.get(i) + ">" + " Length " + ss.get(i).length());
+            af.parsePathname(ss.get(i));
+	    af.parseFilename(ss.get(i));
+            System.out.println("getPathname: <" + af.getPathname() + ">" + " Length " +
+	    af.getPathname().length());
+            System.out.println("getFilename: <" + af.getFilename() + ">" + " Length ");
+	    System.out.println("getAuthor:   <" + af.getAuthor() + ">"); 
+            System.out.println("getTitle:    <" + af.getTitle() + ">");
+	    System.out.println("<" + af.toString() + ">");
+	    System.out.println();
+        }
+	
+	
+	
+	/*
+
+	AudioFile af = new AudioFile();
+	
+	List<String> fl = new ArrayList<String>();
+	fl.add("file.mp3");
+	fl.add("-");
+	fl.add(" - ");
+	fl.add(".mp3");
+	fl.add(" Falco - Rock me Amadeus .mp3 ");
+	fl.add("Falco - Rock me Amadeus.");
+	fl.add("          A.U.T.O.R.  -  T.I.T.E.L.EXTENSION");
+	fl.add(" Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
+	
+	for(int i = 0; i < fl.size(); i++){
+	    af.setFilename(fl.get(i));	
+	    af.parseFilename(af.getFilename());
+	    System.out.println("Input Filename: <" + fl.get(i) + ">");
+	    System.out.println("getAuthor:   <" + af.getAuthor() + ">");
+	    System.out.println("getTitle:    <" + af.getTitle() + ">");
+	    af.setAuthor("");
+	    af.setTitle("");
+	    System.out.println();
+	}
+	//*/
+   }
 
 
 
