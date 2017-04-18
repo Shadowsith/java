@@ -147,7 +147,7 @@ public class AudioFile{
 	    return path;
 	}
         counter = 0;
-	//ArrayList saves the position of the 
+	//ArrayList saves the position of the "/" or "\" 
         List<Integer> arr = new ArrayList<Integer>();
         arr.add(counter);
         String filename = new String();
@@ -196,26 +196,26 @@ public class AudioFile{
     }
 
     public void parsePathname(String path){
-	int spacetabcounter = 0;
-	int isfileonlycounter = 0;
+	int counter = 0;    //path is only tabOrSpace
+	int counter1 = 0;   //has not '/' or '\'
         for( int i = 0; i < path.length(); i++){
             if(path.charAt(i) == ' ' || path.charAt(i) == '\t'){
-                spacetabcounter++;
+                counter++;
             }
-	    if(path.charAt(i) != '/' || path.charAt(i) != '\\'){
-		isfileonlycounter++;
+	    if(path.charAt(i) != '/' && path.charAt(i) != '\\'){
+		counter1++;
 	    }
         }   
 	if(path.isEmpty()){
 	    setVoidString(path);
 	}
-	else if(path.length() == spacetabcounter){
+	else if(path.length() == counter){
 	    tabOrSpace(path);
 	}
-	/*else if(path.length() == isfileonlycounter){
-	    setPathname("");
+	else if(path.length() == counter1){
+	    setPathname(path);
 	    setFilename(path);
-	}*/
+	}
 	else{
 	    path = replaceSlashOrBackslash(path);
 	    path = normWindowsPath(path);
@@ -227,28 +227,31 @@ public class AudioFile{
 
     public void parseFilename(String file){
         file = getFilename();
-        int counter = 0;
-        int counter1 = 0;
+        int nospacecounter = 0;
+        int separatorspacecounter = 0;
 	int spacetabcounter = 0;
 	int namecounter = 0;
+	int signcounter = 0;
         
 	for(int i = 0; i < file.length(); i++){
             if(file.charAt(i) != ' '){
-                counter++;
+                nospacecounter++;
             }
             if(file.charAt(0) != '-' && (file.charAt(i) == ' ' || file.charAt(i) == '-')){
-                counter1++;
+		separatorspacecounter++;
             }
 	    if(file.charAt(i) == ' ' || file.charAt(i) == '\t'){
 		spacetabcounter++;
 	    }
-	    if(file.charAt(i) != ' ' || file.charAt(i) != '.'){
-		namecounter++;
+	    if((file.charAt(i) == ' ' || file.charAt(i) != ' ') && file.length() > 1){
+		if(file.charAt(i) != '-' || file.charAt(i) == '-' && file.charAt(i+1) != ' '){
+		    namecounter++;
+		}
+	    }
+	    if(file.charAt(i) != ' ' && file.charAt(i) != '.'){
+		    signcounter++;
 	    }
         }
-	//System.out.println("File: " + file);
-	//System.out.println("Filelength: " + file.length());
-	//System.out.println("Counterlength: " + counter);
 	//Empty String -> setAllEmpty
 	if(file.length() == 0 || spacetabcounter == file.length()){
 	    setAuthor("");
@@ -259,27 +262,43 @@ public class AudioFile{
             setAuthor("");
             setTitle("");
         }
+	else if(file.length() == signcounter){
+	    setAuthor("");
+	    setTitle(file);
+	}
 	//For all filenames with no space and '.' for file extension
 	//set Author emptyString and Title is the substring without .fileextension
-        else if(file.length() == counter && file.length() > 1){
+        else if(file.length() == nospacecounter && file.length() > 1){
             setAuthor("");
             setTitle(file.substring(0,file.indexOf(".")));
 	    //System.out.println("File: <" + file + ">");
 	    //System.out.println("Substring <" + file.substring(0,file.indexOf(".")) + ">");
         }
+	else if(file.length() == namecounter){
+	    setAuthor("");
+	    int j = 0;
+	    for(int i = 0; i < file.length(); i++){
+		if(file.charAt(0) == ' '){
+		    file = file.substring(1,file.length());
+		}
+	    }
+	    for(int i = 0; i < file.length(); i++){
+		if(file.charAt(i) == '.'){
+		    j = i;
+		}
+	    }
+	    file = file.substring(0,j);
+	    setTitle(file);
+	}
 	//Exist only " " and "-" in filename, setAllEmpty
-	else if(file.length() == counter1){
+	else if(file.length() == separatorspacecounter){
 	    setAuthor("");
 	    setTitle("");
 	}
-	//Is the first Character '-', setAuthorEmpty and Title is '-'+'so on'
-	else if(file.charAt(0) == '-'){
+	//Is the first Character '-', setAuthorEmpty and Title is '-'
+	else if(file.charAt(0) == '-' && file.length() == 1){
 	    setAuthor("");
-	    setTitle(file);
-	}
-	else if(file.length() == namecounter){
-	    setAuthor("");
-	    setTitle(file);
+	    setTitle("-");
 	}
 	else{
 	   
@@ -304,21 +323,21 @@ public class AudioFile{
 		file = replaceCharAt(file, file.lastIndexOf(" "), '\0');
 		file = removeAllEmptyChar(file);
 	    }
+	    //Set Author/Title, if it the only seperator "-" is there (space before or after)
 	    if (file.indexOf("-") == file.indexOf(" ")+1 ||
 	    file.indexOf("-") ==  file.indexOf(" ")-1){
 		setAuthor(file.substring(0,file.indexOf(" ")));
 		setTitle(file.substring(file.indexOf("-")+2,file.length()));
 	    }
+	    //Set Author/Title, if more "-" are there
 	    if (file.indexOf("-") != file.indexOf(" ")+1 ||
 		file.indexOf("-") !=  file.indexOf(" ")-1){
 
 		int dashcounter = 0;
-		int spacecounter = 0;
 		List<Integer> dashpos  = new ArrayList<Integer>();
-		//List<String> spacepos  = new ArrayList<String>();
 		dashpos.add(dashcounter);
-		//spacepos.add(spacecounter);
-
+		
+		//Search the separator char
 		for (int i = 0; i < file.length(); i++){
 
 		    if (file.charAt(i) == '-' && file.charAt(i-1) == ' ' || file.charAt(i) == '-' &&
@@ -328,14 +347,9 @@ public class AudioFile{
 		    }
 		}
 
+		//Cut of the filename in Author and Title
 		setAuthor(file.substring(0,dashpos.get(dashcounter)-1));
 		setTitle(file.substring(dashpos.get(dashcounter)+2,file.length()));
-		//for (int i = 0; i < dashpos.size(); i++){
-		
-		//    if (
-
-		//}
-		//setAuthor(file);
             }
 	}
     }
@@ -366,20 +380,10 @@ public class AudioFile{
     } 
 
     public void setAuthor(String filename){
-	if (filename.indexOf(" ") == 0){
-	    for(int i = 0; i < filename.length(); i++){
-		filename = filename.substring(1,filename.length());
-	    }
-	}
 	author = filename;
     }
 
     public void setTitle(String filename){
-	if (filename.indexOf(" ") == 0){
-	    for(int i = 0; i < filename.length(); i++){
-                filename = filename.substring(1,filename.length());
-	    }
-	}
 	title = filename;
     }
 
@@ -400,21 +404,27 @@ public class AudioFile{
 	return title;
     }
 
-    //Main----------------------------------
-    public static void main(String[] args){
      
+    public static void main(String[] args){
+    /* 
         List<String> ss = new ArrayList<String>();
         ss.add("");             //0
-	String str = "/my-tmp/\\       Falco - Rock me Amadeus.mp3";
+        String str = "/my-tmp/\\       Falco - Rock me Amadeus.mp3";
         ss.add("   \t   \t");
         ss.add("  file.mp3");
         ss.add("/my-tmp/\\       Falco - Rock me Amadeus.mp3");
         ss.add("//my-tmp////\\\\\\part1//\\     Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
         ss.add("d:\\\\part1///     A.U.T.O.R. - T.I.T.E.L   .EXTENSION"); //5
+	ss.add("p");
+	ss.add("home/meier/Musik/Falco - Rock Me Amadeus.mp3");
+	ss.add("Z:part1/file.mp3/");
+	ss.add("/part1/mymusic/");
+	ss.add("/nocheinsong/");
+	ss.add("-");
+	ss.add("Falco - Rock me Amadeus.mp3");
+	ss.add(".mp3");
 
-
-        AudioFile af = new AudioFile();
-	/*
+	/*	
 	    AudioFile af = new AudioFile("p");
             System.out.println("Input File:  <" + "p" ss.get(4) + ">" + " Length " + ss.get(2).length());
             System.out.println("getPathname: <" + af.getPathname() + ">" + " Length ");
@@ -423,7 +433,10 @@ public class AudioFile{
             System.out.println("getTitle:    <" + af.getTitle() + ">");
             System.out.println("<" + af.toString() + ">");
             System.out.println();
-	*/
+	
+	
+	AudioFile af = new AudioFile();
+
         for(int i = 0; i < ss.size(); i++){
             System.out.println("Input File:  <" + ss.get(i) + ">" + " Length " + ss.get(i).length());
             af.parsePathname(ss.get(i));
@@ -439,8 +452,8 @@ public class AudioFile{
 	
 	
 	
+	
 	/*
-
 	AudioFile af = new AudioFile();
 	
 	List<String> fl = new ArrayList<String>();
@@ -463,9 +476,8 @@ public class AudioFile{
 	    af.setTitle("");
 	    System.out.println();
 	}
-	//*/
-   }
+	*/
 
-
+    }
 
 }
