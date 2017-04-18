@@ -212,22 +212,21 @@ public class AudioFile{
 	else if(path.length() == spacetabcounter){
 	    tabOrSpace(path);
 	}
-	else if(path.length() == isfileonlycounter){
+	/*else if(path.length() == isfileonlycounter){
 	    setPathname("");
 	    setFilename(path);
-	}
+	}*/
 	else{
 	    path = replaceSlashOrBackslash(path);
 	    path = normWindowsPath(path);
 	    path = normaliseSlashes(path);
 	    path = deleteUnusedSpace(path);
 	    setPathname(path);
-	    parseFilename(path);
 	}
     }
 
     public void parseFilename(String file){
-        //file = getFilename();
+        file = getFilename();
         int counter = 0;
         int counter1 = 0;
 	int spacetabcounter = 0;
@@ -408,24 +407,24 @@ public class AudioFile{
         ss.add("");             //0
 	String str = "/my-tmp/\\       Falco - Rock me Amadeus.mp3";
         ss.add("   \t   \t");
-        //ss.add("  file.mp3");
+        ss.add("  file.mp3");
         ss.add("/my-tmp/\\       Falco - Rock me Amadeus.mp3");
         ss.add("//my-tmp////\\\\\\part1//\\     Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
         ss.add("d:\\\\part1///     A.U.T.O.R. - T.I.T.E.L   .EXTENSION"); //5
 
 
-        //AudioFile af = new AudioFile();
-
+        AudioFile af = new AudioFile();
+	/*
 	    AudioFile af = new AudioFile("p");
-            System.out.println("Input File:  <" + "p" /*ss.get(4)*/ + ">" + " Length " + ss.get(2).length());
+            System.out.println("Input File:  <" + "p" ss.get(4) + ">" + " Length " + ss.get(2).length());
             System.out.println("getPathname: <" + af.getPathname() + ">" + " Length ");
             System.out.println("getFilename: <" + af.getFilename() + ">" + " Length ");
             System.out.println("getAuthor:   <" + af.getAuthor() + ">"); 
             System.out.println("getTitle:    <" + af.getTitle() + ">");
             System.out.println("<" + af.toString() + ">");
             System.out.println();
-
-        /*for(int i = 0; i < ss.size(); i++){
+	*/
+        for(int i = 0; i < ss.size(); i++){
             System.out.println("Input File:  <" + ss.get(i) + ">" + " Length " + ss.get(i).length());
             af.parsePathname(ss.get(i));
 	    af.parseFilename(ss.get(i));

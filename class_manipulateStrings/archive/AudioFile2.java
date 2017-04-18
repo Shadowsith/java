@@ -196,24 +196,24 @@ public class AudioFile{
     }
 
     public void parsePathname(String path){
-	int counter = 0;
-	int counter1 = 0;
+	int spacetabcounter = 0;
+	int isfileonlycounter = 0;
         for( int i = 0; i < path.length(); i++){
             if(path.charAt(i) == ' ' || path.charAt(i) == '\t'){
-                counter++;
+                spacetabcounter++;
             }
-	    if(path.charAt(i) != '/' && path.charAt(i) != '\\'){
-		counter1++;
+	    if(path.charAt(i) != '/' || path.charAt(i) != '\\'){
+		isfileonlycounter++;
 	    }
         }   
 	if(path.isEmpty()){
 	    setVoidString(path);
 	}
-	else if(path.length() == counter){
+	else if(path.length() == spacetabcounter){
 	    tabOrSpace(path);
 	}
-	else if(path.length() == counter1){
-	    setPathname(path);
+	else if(path.length() == isfileonlycounter){
+	    setPathname("");
 	    setFilename(path);
 	}
 	else{
@@ -222,16 +222,16 @@ public class AudioFile{
 	    path = normaliseSlashes(path);
 	    path = deleteUnusedSpace(path);
 	    setPathname(path);
+	    parseFilename(path);
 	}
     }
 
     public void parseFilename(String file){
-        file = getFilename();
+        //file = getFilename();
         int counter = 0;
         int counter1 = 0;
 	int spacetabcounter = 0;
 	int namecounter = 0;
-	int signcounter = 0;
         
 	for(int i = 0; i < file.length(); i++){
             if(file.charAt(i) != ' '){
@@ -243,13 +243,8 @@ public class AudioFile{
 	    if(file.charAt(i) == ' ' || file.charAt(i) == '\t'){
 		spacetabcounter++;
 	    }
-	    if((file.charAt(i) == ' ' || file.charAt(i) != ' ') && file.length() > 1){
-		if(file.charAt(i) != '-' || file.charAt(i) == '-' && file.charAt(i+1) != ' '){
-		    namecounter++;
-		}
-	    }
-	    if(file.charAt(i) != ' ' && file.charAt(i) != '.'){
-		    signcounter++;
+	    if(file.charAt(i) != ' ' || file.charAt(i) != '.'){
+		namecounter++;
 	    }
         }
 	//System.out.println("File: " + file);
@@ -265,10 +260,6 @@ public class AudioFile{
             setAuthor("");
             setTitle("");
         }
-	else if(file.length() == signcounter){
-	    setAuthor("");
-	    setTitle(file);
-	}
 	//For all filenames with no space and '.' for file extension
 	//set Author emptyString and Title is the substring without .fileextension
         else if(file.length() == counter && file.length() > 1){
@@ -277,31 +268,19 @@ public class AudioFile{
 	    //System.out.println("File: <" + file + ">");
 	    //System.out.println("Substring <" + file.substring(0,file.indexOf(".")) + ">");
         }
-	else if(file.length() == namecounter){
-	    setAuthor("");
-	    int j = 0;
-	    for(int i = 0; i < file.length(); i++){
-		if(file.charAt(0) == ' '){
-		    file = file.substring(1,file.length());
-		}
-	    }
-	    for(int i = 0; i < file.length(); i++){
-		if(file.charAt(i) == '.'){
-		    j = i;
-		}
-	    }
-	    file = file.substring(0,j);
-	    setTitle(file);
-	}
 	//Exist only " " and "-" in filename, setAllEmpty
 	else if(file.length() == counter1){
 	    setAuthor("");
 	    setTitle("");
 	}
-	//Is the first Character '-', setAuthorEmpty and Title is '-'
-	else if(file.charAt(0) == '-' && file.length() == 1){
+	//Is the first Character '-', setAuthorEmpty and Title is '-'+'so on'
+	else if(file.charAt(0) == '-'){
 	    setAuthor("");
-	    setTitle("-");
+	    setTitle(file);
+	}
+	else if(file.length() == namecounter){
+	    setAuthor("");
+	    setTitle(file);
 	}
 	else{
 	   
@@ -397,11 +376,11 @@ public class AudioFile{
     }
 
     public void setTitle(String filename){
-	/*if (filename.indexOf(" ") == 0){
+	if (filename.indexOf(" ") == 0){
 	    for(int i = 0; i < filename.length(); i++){
                 filename = filename.substring(1,filename.length());
 	    }
-	}*/
+	}
 	title = filename;
     }
 
@@ -422,80 +401,12 @@ public class AudioFile{
 	return title;
     }
 
-     
+    //Main----------------------------------
     public static void main(String[] args){
-    /* 
-        List<String> ss = new ArrayList<String>();
-        ss.add("");             //0
-        String str = "/my-tmp/\\       Falco - Rock me Amadeus.mp3";
-        ss.add("   \t   \t");
-        ss.add("  file.mp3");
-        ss.add("/my-tmp/\\       Falco - Rock me Amadeus.mp3");
-        ss.add("//my-tmp////\\\\\\part1//\\     Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
-        ss.add("d:\\\\part1///     A.U.T.O.R. - T.I.T.E.L   .EXTENSION"); //5
-	ss.add("p");
-	ss.add("home/meier/Musik/Falco - Rock Me Amadeus.mp3");
-	ss.add("Z:part1/file.mp3/");
-	ss.add("/part1/mymusic/");
-	ss.add("/nocheinsong/");
-	ss.add("-");
-	ss.add("Falco - Rock me Amadeus.mp3");
-	ss.add(".mp3");
-
-	
-	    AudioFile af = new AudioFile("p");
-            System.out.println("Input File:  <" + "p" ss.get(4) + ">" + " Length " + ss.get(2).length());
-            System.out.println("getPathname: <" + af.getPathname() + ">" + " Length ");
-            System.out.println("getFilename: <" + af.getFilename() + ">" + " Length ");
-            System.out.println("getAuthor:   <" + af.getAuthor() + ">"); 
-            System.out.println("getTitle:    <" + af.getTitle() + ">");
-            System.out.println("<" + af.toString() + ">");
-            System.out.println();
-	
-	
-	AudioFile af = new AudioFile();
-
-        for(int i = 0; i < ss.size(); i++){
-            System.out.println("Input File:  <" + ss.get(i) + ">" + " Length " + ss.get(i).length());
-            af.parsePathname(ss.get(i));
-	    af.parseFilename(ss.get(i));
-            System.out.println("getPathname: <" + af.getPathname() + ">" + " Length " +
-	    af.getPathname().length());
-            System.out.println("getFilename: <" + af.getFilename() + ">" + " Length ");
-	    System.out.println("getAuthor:   <" + af.getAuthor() + ">"); 
-            System.out.println("getTitle:    <" + af.getTitle() + ">");
-	    System.out.println("<" + af.toString() + ">");
-	    System.out.println();
-        }
-	
-	
-	
-	
-	/*
-	AudioFile af = new AudioFile();
-	
-	List<String> fl = new ArrayList<String>();
-	fl.add("file.mp3");
-	fl.add("-");
-	fl.add(" - ");
-	fl.add(".mp3");
-	fl.add(" Falco - Rock me Amadeus .mp3 ");
-	fl.add("Falco - Rock me Amadeus.");
-	fl.add("          A.U.T.O.R.  -  T.I.T.E.L.EXTENSION");
-	fl.add(" Hans-Georg Sonstwas - Blue-eyed boy-friend.mp3");
-	
-	for(int i = 0; i < fl.size(); i++){
-	    af.setFilename(fl.get(i));	
-	    af.parseFilename(af.getFilename());
-	    System.out.println("Input Filename: <" + fl.get(i) + ">");
-	    System.out.println("getAuthor:   <" + af.getAuthor() + ">");
-	    System.out.println("getTitle:    <" + af.getTitle() + ">");
-	    af.setAuthor("");
-	    af.setTitle("");
-	    System.out.println();
-	}
-	*/
-
+     
+    
     }
+
+
 
 }
