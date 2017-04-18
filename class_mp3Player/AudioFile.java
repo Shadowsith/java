@@ -1,23 +1,38 @@
 import java.util.Arrays;
 import java.lang.String;
 import java.util.*;
+import java.io.File;
 
 public class AudioFile{
 
     //Variables------------------------------------------------
     private static String operatingSystem = System.getProperty("os.name").toLowerCase();
-    public String path = new String();
+    private String path = new String();
     private String parsedFilename = new String();
     private String parsedPathname = new String();
     private String author = new String();
     private String title = new String();
+    private File f = null;
 
     //Constructors---------------------------------------------
 
-    public AudioFile(String input){
+    public AudioFile(String pathname){
 
-    parsePathname(input);
-    parseFilename(getFilename());
+	parsePathname(pathname);
+	
+	//try{
+	    f = new File(getPathname());
+	    if(f.canRead() == true){
+		System.out.println("File could be read");
+	    }
+	    else{
+		throw new RuntimeException("File: " + getPathname() + " couldn't read");
+	    }
+
+	//}
+	//catch {}
+    
+	parseFilename(getFilename());
     }
 
     public AudioFile() {}
@@ -406,10 +421,10 @@ public class AudioFile{
 
      
     public static void main(String[] args){
-    /* 
+     
         List<String> ss = new ArrayList<String>();
         ss.add("");             //0
-        String str = "/my-tmp/\\       Falco - Rock me Amadeus.mp3";
+        String str = "/home/philip/Projekte/gdp2/mediaplayerv07/audiofiles/Eisbach Deep Snow.ogg";
         ss.add("   \t   \t");
         ss.add("  file.mp3");
         ss.add("/my-tmp/\\       Falco - Rock me Amadeus.mp3");
@@ -424,17 +439,17 @@ public class AudioFile{
 	ss.add("Falco - Rock me Amadeus.mp3");
 	ss.add(".mp3");
 
-	/*	
-	    AudioFile af = new AudioFile("p");
-            System.out.println("Input File:  <" + "p" ss.get(4) + ">" + " Length " + ss.get(2).length());
-            System.out.println("getPathname: <" + af.getPathname() + ">" + " Length ");
-            System.out.println("getFilename: <" + af.getFilename() + ">" + " Length ");
+		
+	    AudioFile af = new AudioFile(str);
+            System.out.println("Input File:  <" + str + ">");
+            System.out.println("getPathname: <" + af.getPathname() + ">");
+            System.out.println("getFilename: <" + af.getFilename() + ">");
             System.out.println("getAuthor:   <" + af.getAuthor() + ">"); 
             System.out.println("getTitle:    <" + af.getTitle() + ">");
             System.out.println("<" + af.toString() + ">");
             System.out.println();
 	
-	
+	/*
 	AudioFile af = new AudioFile();
 
         for(int i = 0; i < ss.size(); i++){
