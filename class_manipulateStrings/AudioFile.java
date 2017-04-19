@@ -6,7 +6,7 @@ public class AudioFile{
 
     //Variables------------------------------------------------
     private static String operatingSystem = System.getProperty("os.name").toLowerCase();
-    public String path = new String();
+    private String path = new String();
     private String parsedFilename = new String();
     private String parsedPathname = new String();
     private String author = new String();
@@ -424,7 +424,7 @@ public class AudioFile{
 
      
     public static void main(String[] args){
-    /* 
+     
         List<String> ss = new ArrayList<String>();
         ss.add("");             //0
         String str = "/my-tmp/\\       Falco - Rock me Amadeus.mp3";
@@ -442,7 +442,7 @@ public class AudioFile{
 	ss.add("Falco - Rock me Amadeus.mp3");
 	ss.add(".mp3");
 
-	
+        /*	
 	    AudioFile af = new AudioFile("p");
             System.out.println("Input File:  <" + "p" ss.get(4) + ">" + " Length " + ss.get(2).length());
             System.out.println("getPathname: <" + af.getPathname() + ">" + " Length ");
@@ -452,7 +452,7 @@ public class AudioFile{
             System.out.println("<" + af.toString() + ">");
             System.out.println();
 	
-	
+        */	
 	AudioFile af = new AudioFile();
 
         for(int i = 0; i < ss.size(); i++){
