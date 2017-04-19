@@ -1,4 +1,4 @@
-public class Regex{
+public class CutOffSpacesSubstring{
 
     public static void main(String[] args){
 
