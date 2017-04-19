@@ -3,7 +3,7 @@ import java.lang.String;
 import java.util.*;
 import java.io.File;
 
-public class AudioFile{
+public abstract class AudioFile{
 
     //Variables------------------------------------------------
     private static String operatingSystem = System.getProperty("os.name").toLowerCase();
@@ -37,7 +37,13 @@ public class AudioFile{
 
     public AudioFile() {}
 
+    //Abstract methodes for subclasses-----------------------
 
+    public abstract void play();
+    public abstract void togglePause();
+    public abstract void stop();
+    public abstract String getFormattedDuration();
+    public abstract String getFormattedPosition();
     
     //Own methodes for parsePathname--------------------------
     public String replaceCharAt(String s, int pos, char c) {
@@ -421,7 +427,7 @@ public class AudioFile{
 
      
     public static void main(String[] args){
-     
+    /* 
         List<String> ss = new ArrayList<String>();
         ss.add("");             //0
         String str = "/home/philip/Projekte/gdp2/mediaplayerv07/audiofiles/Eisbach Deep Snow.ogg";
