@@ -1,0 +1,101 @@
+Erzeugung lustiger Namen fuer Verzeichnisse und Dateien
+=======================================================
+
+FABR: 22.04.2012
+
+---------------------------------------------------------------------
+Uebung 1:
+Lustige Pfadnamen unter Windows in Shell (Eingabeaufforderung)
+---------------------------------------------------------------------
+
+Voraussetzung: Schreibrechte unter c:\
+
+In einer Windows Eingabeaufforderung:
+
+ cd \
+ md xxx
+ cd xxx
+ md "  yyy"
+ md zzz
+ cd "  yyy"
+ dir > hallo
+ dir > "  hallo"
+
+ und dann
+
+ cd \
+ 
+ cd c:xxx////\\\\"  yyy"
+ dir
+ 
+ Und dann das Werk im Explorer betrachten
+ 
+ Was neues gelernt?
+
+
+---------------------------------------------------------------------
+Uebung 2:
+Lustige Namen ueber Java-Programm erzeugen
+---------------------------------------------------------------------
+
+Die Unit-Tests des Eclipse-Projekts FunnyNames ausfuehren.
+Es gibt fuer Windows und nicht-Windows unterschiedliche Test.
+
+Zuerst Windows, Ergebnis studieren
+REBOOT
+Dann Linux/Mac, Ergebnis studieren
+
+
+---------------------------------------------------------------------
+Uebung 3: (unter Unix)
+Auch fuer Vorlesung Betriebssysteme
+ 
+Auswertung der System-Calls mittels strace
+---------------------------------------------------------------------
+
+Wie funktioniert strace? ---> man strace
+
+In einer Unix-Shell:
+
+strace ls .//////examples//////// 2>&1 | grep examples
+
+Die Shell normalisiert nicht, sondern uebergibt die Pfade an den Sys-Call.
+Sogar die Kernel-Routinen koennen Pfadnamen normalisieren!
+
+---------------------------------------------------------------------
+Uebung 4: (unter Unix)
+Die bei der Ausfuehrung der Unit-Tests von Java-JVM
+erzeugten System-Calls betrachten 
+---------------------------------------------------------------------
+ 
+cd CodeExamples/FunnyNames
+
+# Wichtig: die Option '-f' sorgt dafuer, dass Kindprozesse auch
+# verfolgt werden.
+
+strace -f ant run.utests > strace.out 2>&1
+
+grep open strace.out | grep trash
+
+Nun nach Muster 'bla' suchen
+
+--> Das Java-Programm erzeugt bei Ausfuehrung durch die JVM Systemaufrufe,
+    die bereits die normalisierten Namen als Argumente erhalten!
+    Irgendwo in der Zwischenschicht (JAVA Standard-Bibliothek) wird
+    normalisiert.
+    
+---------------------------------------------------------------------
+Fazit:
+
+1) Etwas vergleichbares zu AudioFile:parsePathname() wird also an mehreren
+   Stellen durchgefuehrt. 
+	- Applikation
+	- Standardbibliothek
+	- Kernel
+
+2) Je nach Betriebssystem koennen beliebige Mischformen von / und \ 
+   verwendet werden.
+3) Bei der Programmierung von Anwendungen muss mit Mischformen und
+   Mehrfachnennungvon / \ gerechnet werden.
+4) Was moeglich ist, wird auch irgendwann, absichtlich oder unabsichtlich,
+   verwendet

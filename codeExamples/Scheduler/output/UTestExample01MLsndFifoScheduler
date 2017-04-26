@@ -1,0 +1,37 @@
+Statistics:
+A: WtRdy:110 Svc: 40 TrnArd:150 RspSum: 75 RspCnt: 2 mRsp: 37,50 Thput:0
+B: WtRdy: 35 Svc: 40 TrnArd: 75 RspSum: 25 RspCnt: 2 mRsp: 12,50 Thput:1
+C: WtRdy: 15 Svc: 40 TrnArd: 55 RspSum: 15 RspCnt: 1 mRsp: 15,00 Thput:1
+D: WtRdy: 45 Svc: 50 TrnArd: 95 RspSum:  0 RspCnt: 0 mRsp:  0,00 Thput:1
+Overall mean response time:  23,00
+Overall throughput in [60,160[:   75%
+Overall CPU usage in [60,160[:  100%
+
+Strategy: MLsndFifoScheduler
+Start process: D
+
+A(2): Work(30),Wait(35),Work(10);
+B(5): Work(20),Wait(10),Work(20);
+C(9): Work(25),Launch(A),Work(10),Launch(B),Work(5);
+D(9): Work(15),Launch(C),Work(15),Wait(45),Work(20);
+
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 22
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 00
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 05
+
+A:            -----------LL----LLLL.......LL|
+B:              -L----LLL..LLLL             |
+C:    ---LLLLLLLL                           |
+D: LLLLLL.........LLLL                      |
+
+Q:    C       A BAB   A    A                 
+                A A                          
+
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 22
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 00
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 05
+
+A: R  R  R    B BBB   B  L B   L   W      L R
+B: R  R  R    R BLB   L  W L   R   R      R R
+C: R  B  L    L LRR   R  R R   R   R      R R
+D: L  L  W    W WWL   R  R R   R   R      R R

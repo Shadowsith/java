@@ -1,0 +1,106 @@
+Aufruf:
+
+gprolog
+
+Programm einlesen (consult):
+
+[einstein].
+
+Goal:
+
+| ?- permutation([rot, gruen, blau, gelb, weiss],X).
+
+X = [rot,gruen,blau,gelb,weiss] ? ;
+
+X = [rot,gruen,blau,weiss,gelb] ? ;
+
+X = [rot,gruen,gelb,blau,weiss] ? .
+Action (; for next solution, a for all solutions, RET to stop) ? 
+
+
+| ?- belegeFarben(Hs).
+
+Hs = [[rot,_,_,_,_],[gruen,_,_,_,_],[blau,_,_,_,_],[gelb,_,_,_,_],[weiss,_,_,_,_]] ? #
+Action (; for next solution, a for all solutions, RET to stop) ? ;
+Hs = [[rot,_,_,_,_],[gruen,_,_,_,_],[blau,_,_,_,_],[weiss,_,_,_,_],[gelb,_,_,_,_]] ? ;
+Hs = [[rot,_,_,_,_],[gruen,_,_,_,_],[gelb,_,_,_,_],[blau,_,_,_,_],[weiss,_,_,_,_]] ? 
+(Abbruch mit Return)
+yes
+
+Finde alle Lösungen und zähle deren Anzahl.
+Verwendung von _ unterdrückt Ausgabe auf Top-Level
+
+| ?- findall(Hs,belegeFarben(Hs),_S), length(_S,X).
+X = 120
+
+
+##############################################################
+# Exploration des Lösungsraums für Einsteinrätsel
+##############################################################
+
+Wieviele Lösungen gibt es noch, wenn nicht alle Constraints angewendet werden.
+Editiere Prädikat loese_partiell(Hs)
+
+yes
+| ?- findall(Hs,loese_partiell(Hs),_S), length(_S,X).
+
+X = 23040
+
+(120 ms) yes
+
+##############################################################
+# Berechne Loesung des Einsteinrätsels ohne Optimierung
+##############################################################
+
+loesung0(Hs).
+
+Abbruch nach 5 Minuten
+
+mit kleiner Optimierung gibt es schon Loesungen nach 20 Sekunden
+
+loesung0(Hs) :-
+    belegeNationen(Hs),
+    constraint11(Hs),
+
+    belegeFarben(Hs),
+    constraint12(Hs),
+    constraint16(Hs),
+    constraint05(Hs),
+
+    belegeTiere(Hs),
+    belegeGetraenke(Hs),
+    belegeZigaretten(Hs),
+
+    constraint06(Hs),
+    constraint15(Hs),
+    constraint07(Hs),
+    constraint09(Hs),
+    constraint08(Hs),
+    constraint10(Hs),
+    constraint13(Hs),
+    constraint14(Hs),
+    constraint17(Hs),
+    constraint18(Hs),
+    constraint19(Hs).
+
+Hs = [[gelb,norweger,wasser,katze,dunhill],[blau,daene,tee,pferd,marlboro],[rot,brite,milch,vogel,pallmall],[gruen,deutscher,kaffee,fisch,rothmanns],[weiss,schwede,bier,hund,winfield]] ? 
+
+(21920 ms) yes
+
+
+##############################################################
+# Berechne Loesung des Einsteinrätsels mit Optimierung
+##############################################################
+
+loesung(Hs).
+
+120ms
+
+Hs = [
+        [gelb,norweger,wasser,katze,dunhill],
+        [blau,daene,tee,pferd,marlboro],
+        [rot,brite,milch,vogel,pallmall],
+        [gruen,deutscher,kaffee,fisch,rothmanns],
+        [weiss,schwede,bier,hund,winfield]
+    ]
+

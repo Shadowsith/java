@@ -1,0 +1,30 @@
+Beispiel zu Kapitel oop_04:
+
+Zeigt:
+- Vererbung (AbstractLogger, ConsoleLogger, FileLogger)
+- Polymorphie (logMsg, close)
+- Modifizierer protected  (AbstractLogger.loglevel)
+- Konstanten: 'final'
+- FileIO
+
+- Enum
+- Interface
+
+- Generic ArrayList und Interface List
+
+Kombination der Beispiele Konten und Logger 
+
+Einfache Klasse GiroKonto verwendet Logging-Mechanismus
+Client Klasse UseGiroKonto
+
+Client Klasse UseGiroKonto:
+- zeigt Anwendung des Loggers.
+- wir testen ConsoleLogger und FileLogger
+- mit 'tail -f' das logfile.log beobachten bei Ausführung von UseGiroKonto
+
+- Programmieren gegen Interfaces:
+  Der LogMgr verwaltet mehrere Logger und implementiert das Interface Logger.
+  Der LogFilter gibt nur Nachrichten mit bestimmtem LogLevel an Logger weiter
+  
+  Client-Klasse GiroKonto kommuniziert nur über Interface Logger
+  Client-Klasse UseGiroKonto nutzt auch speziellere Schnittstellen der Klassen

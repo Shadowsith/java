@@ -1,0 +1,54 @@
+Statistics:
+A: WtRdy: 40 Svc: 40 TrnArd: 80 RspSum:  5 RspCnt: 1 mRsp:  5,00 Thput:1
+B: WtRdy: 10 Svc: 40 TrnArd: 50 RspSum:  0 RspCnt: 0 mRsp:  0,00 Thput:1
+C: WtRdy: 95 Svc: 40 TrnArd:135 RspSum: 95 RspCnt: 3 mRsp: 31,67 Thput:1
+D: WtRdy:120 Svc: 50 TrnArd:170 RspSum: 75 RspCnt: 2 mRsp: 37,50 Thput:0
+Overall mean response time:  29,17
+Overall throughput in [60,160[:   75%
+Overall CPU usage in [60,160[:  100%
+
+Strategy: MLFsndRRScheduler-T10-Q1-refill
+Start process: D
+
+A: Work(30),Wait(35),Work(10);
+B: Work(20),Wait(10),Work(20);
+C: Work(25),Launch(A),Work(10),Launch(B),Work(5);
+D: Work(15),Launch(C),Work(15),Wait(45),Work(20);
+
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+A:          -LLLLLL.......LL         |
+B:                    LLLL..LLLL     |
+C:    -LLLLLL--------L----------L    |
+D: LLLL------------LL.........---LLLL|
+
+Q:    CD D DAD D D C  CC CC C C D     
+            DC C C            D       
+
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+A: R RRR R RBL L L W WWW WL R R RR   R
+B: R RRR R RRR R R R RLL LW L L RR   R
+C: R RBL L LLB B B B LBB BB B B LR   R
+D: L LLB B BBB B B L WWW WW W B BL   R
+
+A:          99 9 9 8 888 88           
+B:                    99 98 8 8       
+C:    99 9 998 8 8 8 877 77 7 7 7     
+D: 9 998 8 888 8 8 8 777 77 7 7 77    
+
+Table for quantum depending on dynamic priority
+Prio=9 --> quantum=   1
+Prio=8 --> quantum=   2
+Prio=7 --> quantum=   4
+Prio=6 --> quantum=   8
+Prio=5 --> quantum=  16
+Prio=4 --> quantum=  32
+Prio=3 --> quantum=  64
+Prio=2 --> quantum= 128
+Prio=1 --> quantum= 256
+Prio=0 --> quantum= 512

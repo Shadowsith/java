@@ -1,0 +1,33 @@
+Statistics:
+A: WtRdy: 75 Svc: 55 TrnArd:130 RspSum: 60 RspCnt: 3 mRsp: 20,00 Thput:0
+B: WtRdy: 55 Svc: 50 TrnArd:105 RspSum: 45 RspCnt: 3 mRsp: 15,00 Thput:1
+C: WtRdy: 45 Svc: 25 TrnArd: 70 RspSum: 35 RspCnt: 2 mRsp: 17,50 Thput:1
+Overall mean response time:  17,50
+Overall throughput in [20,120[:   67%
+Overall CPU usage in [20,120[:  100%
+
+Strategy: RRScheduler-T10-Q2-refill
+Start process: A
+
+A: Work(15),Launch(B),Work(10),Wait(15),Work(30);
+B: Work(20),Launch(C),Wait(10),Work(30);
+C: Work(15),Wait(10),Work(10);
+
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+A: LLLL----L...----LLLL----LL|
+B:    -LLLL..--LLLL------LL  |
+C:         -LLL..------LL    |
+
+Q:    BA   C B A A C   B A    
+                 C B   A      
+
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+A: L  LB   LWW B B L   B B L R
+B: R  BL   WWB L L B   B L R R
+C: R  RR   BLL W B B   L R R R

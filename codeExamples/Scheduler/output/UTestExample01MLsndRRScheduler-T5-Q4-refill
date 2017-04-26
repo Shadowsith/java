@@ -1,0 +1,37 @@
+Statistics:
+A: WtRdy:110 Svc: 40 TrnArd:150 RspSum: 75 RspCnt: 2 mRsp: 37,50 Thput:0
+B: WtRdy: 30 Svc: 40 TrnArd: 70 RspSum: 20 RspCnt: 2 mRsp: 10,00 Thput:1
+C: WtRdy: 15 Svc: 40 TrnArd: 55 RspSum: 15 RspCnt: 2 mRsp:  7,50 Thput:1
+D: WtRdy: 65 Svc: 50 TrnArd:115 RspSum: 20 RspCnt: 1 mRsp: 20,00 Thput:1
+Overall mean response time:  18,57
+Overall throughput in [60,160[:   75%
+Overall CPU usage in [60,160[:  100%
+
+Strategy: MLsndRRScheduler-T5-Q4-refill
+Start process: D
+
+A(2): Work(30),Wait(35),Work(10);
+B(5): Work(20),Wait(10),Work(20);
+C(9): Work(25),Launch(A),Work(10),Launch(B),Work(5);
+D(9): Work(15),Launch(C),Work(15),Wait(45),Work(20);
+
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 22
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 00
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 05
+
+A:            -------L--------LLLLL.......LL|
+B:              -LLLL..---LLLL              |
+C:    -LLLL--LLLL                           |
+D: LLLL----LL.........LLLL                  |
+
+Q:    CD   C  A BA    AB  A                  
+                A      A                     
+
+   0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 22
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 00
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 05
+
+A: R  RR   R RB BB   LBB  B   L   LW      L R
+B: R  RR   R RR BL   WWB  L   R   RR      R R
+C: R  BL   B LL LR   RRR  R   R   RR      R R
+D: L  LB   L WW WW   WLL  R   R   RR      R R
