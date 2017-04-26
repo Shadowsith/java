@@ -69,6 +69,18 @@ class Sportwagen extends Fahrzeug{
         super.print(); 
         System.out.println("Breitreifen:" + hatBreitreifen);
     }
+
+    // Uebungsaufgabe: Wie bekommt Sportwagen 2 Sitzplätze?
+    // Geben sie mehrere Möglichkeiten an und bewerten Sie dies kurz
+    
+    // a) Attribut anzSitze public Setzen, direkte zuweisung an Sportwagen
+    // Schlecht: Attribute sollte nie public sein
+
+    // b) Konstruktor in Hauptklasse setzen, diesen via Super auf Fahrzeug
+    // und Sportwagen vererben; aber: Komplexe Konstruktoren
+
+    // c) Methode setAnzSitze in Hauptklasse setzten, diese wird automatisch
+    // auf Fahrzeug und Sportwagen vererbt; aber: Methode wird immer mitgeschleppt
 }
 
 
