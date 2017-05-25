@@ -1,0 +1,50 @@
+Installieren von Java JDK und Eclipse
+======================================
+
+Siehe auch: http://www.torsten-horn.de/techdocs/java-install.htm#InstallationUnterWindows
+
+Download:
+---------
+eclipse-jee-helios-SR1-win32-x86_64.zip
+jdk-6u24-windows-x64.exe
+
+
+Installieren:
+-------------
+- JDK: exe-Datei ausfuehren
+- Eclipse: ZIP in c:\Users\regensbu\eclipse-jee-helios-SR1-win32-x86_64 entpacken
+  Verknuepfung mit eclipse.exe auf dem Desktop erzeugen
+
+
+Umgebungsvariablen fuer den User setzen:
+----------------------------------------
+In der Systemsteuerung/System und Sicherheit/System/Erweiterte Systemeinstellungen/Umgebungsvariablen
+
+
+JAVA_HOME=c:\Program Files\Java\jdk1.6.0_24
+ANT_HOME=c:\Users\regensbu\eclipse-jee-helios-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.7.1.v20100518-1145
+Path=%JAVA_HOME%\bin;%ANT_HOME%\bin
+
+Test: in einer Shell (Eingabeaufforderung)
+
+> set
+ANT_HOME=c:\Users\regensbu\eclipse-jee-helios-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.7.1.v20100518-1145
+...
+JAVA_HOME=c:\Program Files\Java\jdk1.6.0_24
+ANT_HOME=c:\Users\regensbu\eclipse-jee-helios-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.7.1.v20100518-1145
+Path= ... ;c:\Program Files\Java\jdk1.6.0_24\bin;c:\Users\regensbu\eclipse-jee-helios-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.7.1.v20100518-1145\bin
+
+
+User properties anpassen:
+-------------------------
+
+In der Datei user.props die Pfadangaben auf die eigene Installation anpassen.
+Entweder die WINDOWS Definitionen oder die LINUX Definitionen aktivieren, nicht beide gleichzeitig.
+
+Ant aufrufen:
+-------------
+
+ant.bat -h
+
+ant
+
